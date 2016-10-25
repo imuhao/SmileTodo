@@ -23,5 +23,18 @@
         android:src="@drawable/ic_menu_add"
         app:backgroundTint="@color/backgroupColor"/>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+    >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reciclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f8f8f8"
+        />
 
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
