@@ -66,7 +66,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
     public void addData(TodoBean bean) {
         if (mData == null)
             mData = new ArrayList<>();
-
         mData.add(bean);
         notifyDataSetChanged();
     }
@@ -129,6 +128,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
     @Override
     public void onItemRemoved(RecyclerView.ViewHolder viewHolder) {
         int position = viewHolder.getAdapterPosition();
+        if (mData.isEmpty() || position > mData.size() - 1) {
+            return;
+        }
         TodoBean removeBean = mData.remove(position);
         TodoDaoManager.remove(removeBean);
         notifyItemRemoved(position);

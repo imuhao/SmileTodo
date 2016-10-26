@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void initView() {
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("SmileTodo");
         toolbar.inflateMenu(R.menu.menu);
