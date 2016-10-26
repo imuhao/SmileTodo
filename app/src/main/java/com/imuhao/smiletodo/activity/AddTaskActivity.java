@@ -175,9 +175,12 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
 
     public boolean checkInput(String title) {
         if (TextUtils.isEmpty(title)) {
-            Snackbar.make(mRoot, "Please enter a title!", Snackbar.LENGTH_SHORT).show();
+            View view = getWindow().getDecorView();
+
+            Snackbar.make(view, "Please enter a title!", Snackbar.LENGTH_SHORT).show();
             return false;
         }
+
         return true;
     }
 
