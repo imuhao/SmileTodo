@@ -58,7 +58,7 @@
             android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="80dp"
             android:hint="Enter a title"
             android:textColorHint="@android:color/white"
         >
