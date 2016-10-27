@@ -1,5 +1,7 @@
 package com.imuhao.smiletodo.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,7 +9,10 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +50,10 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
     private TextView mTvTime;
     private SmileCircular mSmileCircular;
 
+    private Switch mDataSwitch;
+    private LinearLayout mLlTime;
+    private TextView mBtnSetTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +62,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
     }
 
     private void initView() {
+        mBtnSetTime = (TextView) findViewById(R.id.btn_set_time);
         mSmileCircular = (SmileCircular) findViewById(R.id.smileCircular);
         mSmileCircular.startAnim();
         mTvTime = (TextView) findViewById(R.id.tv_time);
@@ -62,7 +72,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
                 finish();
             }
         });
-        findViewById(R.id.btn_set_time).setOnClickListener(new View.OnClickListener() {
+        mBtnSetTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setTime();
@@ -89,7 +99,44 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
             mInputLayout.getEditText().setSelection(mEditBean.getTitle().length());
         }
 
+        //是否设置时间
+        mLlTime = (LinearLayout) findViewById(R.id.ll_time);
+        mDataSwitch = (Switch) findViewById(R.id.time_switch);
+        mDataSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkAnimation(isChecked);
+            }
+        });
+    }
 
+    //切换动画状态
+    private void checkAnimation(boolean checked) {
+        if (checked) {
+            mLlTime.animate().setDuration(500).alpha(1.0f).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    mLlTime.setVisibility(View.VISIBLE);
+                }
+            });
+            //显示动画
+            /*ObjectAnimator animator = ObjectAnimator.ofFloat(mLlTime, View.ALPHA, 0, 1);
+            animator.setDuration(500);
+            animator.start();
+            mBtnSetTime.setEnabled(true);*/
+        } else {
+            //隐藏动画
+            /*ObjectAnimator animator = ObjectAnimator.ofFloat(mLlTime, View.ALPHA, 1, 0);
+            animator.setDuration(500);
+            animator.start();
+            mBtnSetTime.setEnabled(false);*/
+            mLlTime.animate().setDuration(500).alpha(0.0f).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mLlTime.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 
     private void add(final String title) {
@@ -114,7 +161,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
                     @Override
                     public void call(Boolean aBoolean) {
                         if (aBoolean) {
-                            Toast.makeText(AddTaskActivity.this, "Insert Success！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddTaskActivity.this, "Add todo success！", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
@@ -139,7 +186,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
-                        Toast.makeText(AddTaskActivity.this, "Edit success！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddTaskActivity.this, "Edit todo success！", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
@@ -175,9 +222,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
 
     public boolean checkInput(String title) {
         if (TextUtils.isEmpty(title)) {
-            View view = getWindow().getDecorView();
-
-            Snackbar.make(view, "Please enter a title!", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mRoot, "Please enter a title!", Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
