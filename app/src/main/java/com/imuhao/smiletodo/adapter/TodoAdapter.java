@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.imuhao.smiletodo.R;
 import com.imuhao.smiletodo.activity.AddTaskActivity;
@@ -160,15 +159,4 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
     }
 }
 
-class TodoHolder extends RecyclerView.ViewHolder {
-    TextView tvTitle;
-    TextView tvFirstTitle;
-    TextView tvTime;
 
-    public TodoHolder(View itemView) {
-        super(itemView);
-        tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
-        tvFirstTitle = (TextView) itemView.findViewById(R.id.tv_first_title);
-        tvTime = (TextView) itemView.findViewById(R.id.tv_time);
-    }
-}
