@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.imuhao.smiletodo.activity.AddTaskActivity;
 import com.imuhao.smiletodo.inter.ItemTouchHelperAdapter;
 import com.imuhao.smiletodo.model.TodoBean;
 import com.imuhao.smiletodo.model.TodoDaoManager;
+import com.like.LikeButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +63,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
         }
     }
 
-    public void addData(TodoBean bean) {
-        if (mData == null)
-            mData = new ArrayList<>();
-        mData.add(bean);
-        notifyDataSetChanged();
-    }
-
     public TodoBean getItem(int position) {
         return mData.get(position);
     }
@@ -86,11 +79,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
     }
 
     @Override
-    public void onBindViewHolder(TodoHolder holder, final int position) {
+    public void onBindViewHolder(final TodoHolder holder, final int position) {
         if (getItemViewType(position) == TYPE_NULL) return;
 
         final TodoBean bean = mData.get(position);
-        Log.d("imuhao", bean.toString());
 
         //设置标题
         String title = bean.getTitle();
@@ -114,13 +106,25 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
         } else {
             holder.tvTime.setVisibility(View.GONE);
         }
-
+        //跳转修改任务页
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddTaskActivity.class);
                 intent.putExtra("todo", getItem(position));
                 mContext.startActivity(intent);
+            }
+        });
+
+        //显示星星
+        holder.lbTop.setVisibility(bean.getIsTop() ? View.VISIBLE : View.GONE);
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                bean.setIsTop(!bean.getIsTop());
+                TodoDaoManager.update(bean);
+                notifyItemChanged(holder.getAdapterPosition());
+                return true;
             }
         });
     }
@@ -137,12 +141,20 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
         Snackbar.make(viewHolder.itemView, "Delete " + removeBean.getTitle() + " the success!", Snackbar.LENGTH_LONG).show();
     }
 
-
     //拖动的时候回调
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
 
     }
+
+    /*private void sortTopData(List<TodoBean> data) {
+        Collections.sort(data, new Comparator<TodoBean>() {
+            @Override
+            public int compare(TodoBean o1, TodoBean o2) {
+                return o2.getIsTop() ? 1 : -1;
+            }
+        });
+    }*/
 
     private String getRandColorCode() {
         String r, g, b;
@@ -164,11 +176,13 @@ class TodoHolder extends RecyclerView.ViewHolder {
     TextView tvTitle;
     TextView tvFirstTitle;
     TextView tvTime;
+    LikeButton lbTop;
 
     public TodoHolder(View itemView) {
         super(itemView);
         tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
         tvFirstTitle = (TextView) itemView.findViewById(R.id.tv_first_title);
         tvTime = (TextView) itemView.findViewById(R.id.tv_time);
+        lbTop = (LikeButton) itemView.findViewById(R.id.lb_top);
     }
 }

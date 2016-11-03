@@ -1,8 +1,10 @@
 package com.imuhao.smiletodo.activity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,6 +21,7 @@ import com.imuhao.smiletodo.adapter.SimpleItemTouchHelperCallback;
 import com.imuhao.smiletodo.adapter.TodoAdapter;
 import com.imuhao.smiletodo.model.TodoBean;
 import com.imuhao.smiletodo.model.TodoDaoManager;
+import com.imuhao.smiletodo.utils.ThemeUtils;
 
 import java.util.List;
 
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(ThemeUtils.getThemeColor());
+
         toolbar.setTitle("SmileTodo");
         toolbar.inflateMenu(R.menu.menu);
         toolbar.setOnMenuItemClickListener(
@@ -52,10 +57,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     public boolean onMenuItemClick(MenuItem item) {
                         int itemId = item.getItemId();
                         //设置页面
-                        /*if (itemId == R.id.action_setting) {
+                        if (itemId == R.id.action_setting) {
                             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
                             startActivity(intent);
-                        }*/
+                        }
                         //关于我页面
                         if (itemId == R.id.action_about) {
                             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
@@ -73,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 startActivity(intent);
             }
         });
+        mActionButton.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.getThemeColor()));
+
 
         mRvTodo = (RecyclerView) findViewById(R.id.reciclerView);
 
@@ -87,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         helper.attachToRecyclerView(mRvTodo);
 
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
-        mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.backgroupColor));
+        mRefreshLayout.setColorSchemeColors(ThemeUtils.getThemeColor());
         mRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -95,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onRestart() {
         super.onRestart();
         initData();
-
     }
 
     public void initData() {

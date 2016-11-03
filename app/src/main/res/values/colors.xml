@@ -6,4 +6,16 @@
     <color name="colorAccent">@android:color/white</color>
     <color name="backgroupColor">#1ed48a</color>
     <color name="gray">#888888</color>
+    <color name="bg_light_gray">#F2F2F2</color>
+
+
+    <color name="theme_green">#1ed48a</color>
+    <color name="theme_red_base">#FB5B81</color>
+    <color name="theme_blue">#0077D9</color>
+    <color name="theme_blue_light">#03A9F4</color>
+    <color name="theme_balck">#000000</color>
+    <color name="theme_teal">#009688</color>
+    <color name="theme_brown">#795548</color>
+    <color name="theme_red">#FF5252</color>
+
 </resources>

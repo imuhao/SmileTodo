@@ -2,6 +2,7 @@ package com.imuhao.smiletodo.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.imuhao.smiletodo.R;
 import com.imuhao.smiletodo.model.TodoBean;
 import com.imuhao.smiletodo.model.TodoDaoManager;
+import com.imuhao.smiletodo.utils.ThemeUtils;
 import com.imuhao.smiletodo.wight.SmileCircular;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
@@ -62,9 +64,15 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
     }
 
     private void initView() {
+        findViewById(R.id.toolbar).setBackgroundColor(ThemeUtils.getThemeColor());
+        findViewById(R.id.ll_title).setBackgroundColor(ThemeUtils.getThemeColor());
+
         mBtnSetTime = (TextView) findViewById(R.id.btn_set_time);
         mSmileCircular = (SmileCircular) findViewById(R.id.smileCircular);
+
+        mSmileCircular.setColor(ThemeUtils.getThemeColor());
         mSmileCircular.startAnim();
+
         mTvTime = (TextView) findViewById(R.id.tv_time);
         findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +88,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
         });
         mRoot = (RelativeLayout) findViewById(R.id.root);
         mActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        mActionButton.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.getThemeColor()));
         mActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,6 +99,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
                 else add(title);
             }
         });
+
         mInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout);
 
         isEdit = getIntent().hasExtra("todo");
@@ -210,10 +220,10 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
                     .setMinMillseconds(System.currentTimeMillis())
                     .setMaxMillseconds(System.currentTimeMillis() + fourYears)
                     .setCurrentMillseconds(System.currentTimeMillis())
-                    .setThemeColor(getResources().getColor(R.color.backgroupColor))
+                    .setThemeColor(ThemeUtils.getThemeColor())
                     .setType(Type.ALL)
                     .setWheelItemTextNormalColor(getResources().getColor(R.color.timetimepicker_default_text_color))
-                    .setWheelItemTextSelectorColor(getResources().getColor(R.color.backgroupColor))
+                    .setWheelItemTextSelectorColor(ThemeUtils.getThemeColor())
                     .setWheelItemTextSize(12)
                     .build();
         }

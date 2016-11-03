@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.imuhao.smiletodo.R;
+import com.imuhao.smiletodo.utils.ThemeUtils;
 
 /**
  * Created by smile on 16-10-25.
@@ -26,5 +27,6 @@ public class AboutActivity extends Activity {
                 finish();
             }
         });
+        findViewById(R.id.toolbar).setBackgroundColor(ThemeUtils.getThemeColor());
     }
 }

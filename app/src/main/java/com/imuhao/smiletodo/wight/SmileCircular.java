@@ -88,6 +88,11 @@ public class SmileCircular extends View {
 
     }
 
+    public void setColor(int color) {
+        mPaint.setColor(color);
+        invalidate();
+    }
+
     /**
      * 暂停动画
      */

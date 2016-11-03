@@ -1,6 +1,7 @@
-
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.android.application'
+
+
 android {
     compileSdkVersion 24
     buildToolsVersion "25.0.0"
@@ -19,11 +20,16 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
 
+        }
+    }
 }
 
 buildscript {
     repositories {
+
         mavenCentral()
     }
     dependencies {
@@ -50,4 +56,6 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.github.jd-alexander:LikeButton:0.2.0'
 }

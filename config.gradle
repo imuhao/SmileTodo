@@ -1,0 +1,6 @@
+ext {
+    configure = [
+            compileSdkVersion: 24,
+            buildToolsVersion: "25.0.0"
+    ]
+}

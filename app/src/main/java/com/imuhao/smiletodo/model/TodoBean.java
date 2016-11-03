@@ -21,8 +21,10 @@ public class TodoBean implements Serializable {
     @NotNull
     private String title;       //任务的名称
     private String time;        //执行的时间
-    private boolean isComplete = false; //是否已完成
+    private boolean isComplete = false; //是否置顶
     private boolean isRemind = false;   //是否提醒
+    private boolean isTop;              //是否置顶
+
     /**
      * Used to resolve relations
      */
@@ -35,14 +37,15 @@ public class TodoBean implements Serializable {
     private transient TodoBeanDao myDao;
 
 
-    @Generated(hash = 2091220736)
+    @Generated(hash = 2074488042)
     public TodoBean(Long id, @NotNull String title, String time, boolean isComplete,
-                    boolean isRemind) {
+            boolean isRemind, boolean isTop) {
         this.id = id;
         this.title = title;
         this.time = time;
         this.isComplete = isComplete;
         this.isRemind = isRemind;
+        this.isTop = isTop;
     }
 
     @Generated(hash = 1563990781)
@@ -151,6 +154,14 @@ public class TodoBean implements Serializable {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    public boolean getIsTop() {
+        return this.isTop;
+    }
+
+    public void setIsTop(boolean isTop) {
+        this.isTop = isTop;
     }
 
     /** called by internal mechanisms, do not call yourself. */
