@@ -186,3 +186,4 @@ class TodoHolder extends RecyclerView.ViewHolder {
         lbTop = (LikeButton) itemView.findViewById(R.id.lb_top);
     }
 }
+
