@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -36,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private RecyclerView mRvTodo;
     private TodoAdapter mTodoAdapter;
     private SwipeRefreshLayout mRefreshLayout;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +46,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(ThemeUtils.getThemeColor());
-
-        toolbar.setTitle("SmileTodo");
-        toolbar.inflateMenu(R.menu.menu);
-        toolbar.setOnMenuItemClickListener(
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("SmileTodo");
+        mToolbar.inflateMenu(R.menu.menu);
+        mToolbar.setOnMenuItemClickListener(
                 new Toolbar.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 startActivity(intent);
             }
         });
-        mActionButton.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.getThemeColor()));
 
 
         mRvTodo = (RecyclerView) findViewById(R.id.reciclerView);
@@ -94,14 +91,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         helper.attachToRecyclerView(mRvTodo);
 
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
-        mRefreshLayout.setColorSchemeColors(ThemeUtils.getThemeColor());
         mRefreshLayout.setOnRefreshListener(this);
+        initThemeColor();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         initData();
+        initThemeColor();
+    }
+
+    private void initThemeColor() {
+        int color = ThemeUtils.getThemeColor();
+        mRefreshLayout.setColorSchemeColors(color);
+        mActionButton.setBackgroundTintList(ColorStateList.valueOf(color));
+        mToolbar.setBackgroundColor(color);
     }
 
     public void initData() {

@@ -12,8 +12,7 @@ import com.imuhao.smiletodo.App;
  */
 
 public class ThemeUtils {
-//    private static int defaultColor = Color.parseColor("#1ed48a");
-    private static int defaultColor = Color.parseColor("#303F9F");
+    private static int defaultColor = Color.parseColor("#1ed48a");
 
     //设置主题的颜色
     public static void setThemeColor(int color) {

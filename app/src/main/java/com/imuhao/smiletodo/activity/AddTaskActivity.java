@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +24,7 @@ import com.imuhao.smiletodo.wight.SmileCircular;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
+import com.kyleduo.switchbutton.SwitchButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,7 +52,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
     private TextView mTvTime;
     private SmileCircular mSmileCircular;
 
-    private Switch mDataSwitch;
+    private SwitchButton mDataSwitch;
     private LinearLayout mLlTime;
     private TextView mBtnSetTime;
 
@@ -60,10 +60,14 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
         initView();
+
     }
 
     private void initView() {
+
+
         findViewById(R.id.toolbar).setBackgroundColor(ThemeUtils.getThemeColor());
         findViewById(R.id.ll_title).setBackgroundColor(ThemeUtils.getThemeColor());
 
@@ -111,7 +115,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
 
         //是否设置时间
         mLlTime = (LinearLayout) findViewById(R.id.ll_time);
-        mDataSwitch = (Switch) findViewById(R.id.time_switch);
+        mDataSwitch = (SwitchButton) findViewById(R.id.time_switch);
         mDataSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -130,16 +134,8 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
                 }
             });
             //显示动画
-            /*ObjectAnimator animator = ObjectAnimator.ofFloat(mLlTime, View.ALPHA, 0, 1);
-            animator.setDuration(500);
-            animator.start();
-            mBtnSetTime.setEnabled(true);*/
         } else {
             //隐藏动画
-            /*ObjectAnimator animator = ObjectAnimator.ofFloat(mLlTime, View.ALPHA, 1, 0);
-            animator.setDuration(500);
-            animator.start();
-            mBtnSetTime.setEnabled(false);*/
             mLlTime.animate().setDuration(500).alpha(0.0f).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {

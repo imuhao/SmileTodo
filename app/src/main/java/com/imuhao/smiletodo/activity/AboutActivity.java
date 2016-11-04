@@ -1,6 +1,7 @@
 package com.imuhao.smiletodo.activity;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -29,4 +30,5 @@ public class AboutActivity extends Activity {
         });
         findViewById(R.id.toolbar).setBackgroundColor(ThemeUtils.getThemeColor());
     }
+
 }

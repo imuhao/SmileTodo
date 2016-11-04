@@ -92,7 +92,7 @@
                 android:text="Remind Me" android:textColor="@android:color/white"
                 android:textSize="16sp"
             />
-            <Switch
+            <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/time_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

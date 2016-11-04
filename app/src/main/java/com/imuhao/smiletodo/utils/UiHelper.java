@@ -1,11 +1,14 @@
 package com.imuhao.smiletodo.utils;
 
-import android.content.Context;
+import android.app.Activity;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.imuhao.smiletodo.R;
@@ -21,8 +24,10 @@ import java.util.List;
 
 public class UiHelper {
 
-
-    public static void showThemeColor(final Context context) {
+    /**
+     * 设置主题颜色
+     */
+    public static void showThemeColor(final Activity context) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_dialog_theme_color, null, false);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog dialog = builder.setView(view).show();
@@ -45,7 +50,8 @@ public class UiHelper {
             @Override
             public void onColorChoose(Integer color) {
                 ThemeUtils.setThemeColor(context.getResources().getColor(color));
-                if (dialog != null) dialog.dismiss();
+                dialog.dismiss();
+                context.recreate();
             }
         }, colors);
         recyclerView.setAdapter(adapter);

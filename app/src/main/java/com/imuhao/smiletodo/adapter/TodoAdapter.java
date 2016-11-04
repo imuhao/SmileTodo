@@ -35,7 +35,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
     private static final int TYPE_NULL = 0X001;
     private static final int TYPE_DATE = 0x002;
 
-
     public TodoAdapter(Context context) {
         mContext = context;
     }
@@ -58,7 +57,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
     public int getItemViewType(int position) {
         if (mData == null || mData.size() == 0) {
             return TYPE_NULL;
-        } else {
+        }else {
             return TYPE_DATE;
         }
     }
@@ -80,7 +79,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
 
     @Override
     public void onBindViewHolder(final TodoHolder holder, final int position) {
-        if (getItemViewType(position) == TYPE_NULL) return;
+        if (getItemViewType(position) == TYPE_NULL )
+            return;
 
         final TodoBean bean = mData.get(position);
 
@@ -146,15 +146,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoHolder> implements Ite
     public void onItemMove(int fromPosition, int toPosition) {
 
     }
-
-    /*private void sortTopData(List<TodoBean> data) {
-        Collections.sort(data, new Comparator<TodoBean>() {
-            @Override
-            public int compare(TodoBean o1, TodoBean o2) {
-                return o2.getIsTop() ? 1 : -1;
-            }
-        });
-    }*/
 
     private String getRandColorCode() {
         String r, g, b;
