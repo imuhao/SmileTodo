@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@color/backgroupColor"/>
+
+    <item>
+        <bitmap android:gravity="center"
+                android:src="@drawable/null_img"
+        />
+    </item>
+
+</layer-list>
