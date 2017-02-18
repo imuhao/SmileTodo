@@ -7,6 +7,7 @@
     <color name="backgroundColor">#1ed48a</color>
     <color name="gray">#888888</color>
     <color name="bg_light_gray">#F2F2F2</color>
+    <color name="alert_color">#F99143</color>
 
 
     <color name="theme_green">#1ed48a</color>

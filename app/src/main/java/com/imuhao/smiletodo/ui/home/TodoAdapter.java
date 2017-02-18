@@ -1,25 +1,23 @@
 package com.imuhao.smiletodo.ui.home;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.imuhao.smiletodo.R;
-import com.imuhao.smiletodo.ui.addtask.AddTaskActivity;
 import com.imuhao.smiletodo.inter.ItemTouchHelperAdapter;
 import com.imuhao.smiletodo.model.TodoBean;
 import com.imuhao.smiletodo.model.TodoDaoManager;
+import com.imuhao.smiletodo.ui.addtask.AddTaskActivity;
+import com.imuhao.smiletodo.utils.AlertUtils;
 import com.like.LikeButton;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,13 +29,13 @@ import java.util.Random;
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>
     implements ItemTouchHelperAdapter {
   private List<TodoBean> mData = new ArrayList<>();
-  private Context mContext;
+  private Activity mActivity;
 
   private static final int TYPE_NULL = 0X001;
   private static final int TYPE_DATE = 0x002;
 
-  public TodoAdapter(Context context) {
-    mContext = context;
+  public TodoAdapter(Activity activity) {
+    mActivity = activity;
   }
 
   public void setData(List<TodoBean> data) {
@@ -68,9 +66,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>
   @Override public TodoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = null;
     if (viewType == TYPE_DATE) {
-      view = LayoutInflater.from(mContext).inflate(R.layout.item_todo_task, parent, false);
+      view = LayoutInflater.from(mActivity).inflate(R.layout.item_todo_task, parent, false);
     } else if (viewType == TYPE_NULL) {
-      view = LayoutInflater.from(mContext).inflate(R.layout.item_todo_null, parent, false);
+      view = LayoutInflater.from(mActivity).inflate(R.layout.item_todo_null, parent, false);
     }
     return new TodoHolder(view);
   }
@@ -105,9 +103,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>
     //跳转修改任务页
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        Intent intent = new Intent(mContext, AddTaskActivity.class);
+        Intent intent = new Intent(mActivity, AddTaskActivity.class);
         intent.putExtra("todo", getItem(position));
-        mContext.startActivity(intent);
+        mActivity.startActivity(intent);
       }
     });
 
@@ -131,8 +129,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoHolder>
     TodoBean removeBean = mData.remove(position);
     TodoDaoManager.remove(removeBean);
     notifyItemRemoved(position);
-    Snackbar.make(viewHolder.itemView, "Delete " + removeBean.getTitle() + " the success!",
-        Snackbar.LENGTH_LONG).show();
+    AlertUtils.show( "删除 " + removeBean.getTitle() + " 成功!");
   }
 
   //拖动的时候回调

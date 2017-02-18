@@ -5,7 +5,7 @@ android {
   buildToolsVersion "25.0.2"
   defaultConfig {
     applicationId "com.imuhao.smiletodo"
-    minSdkVersion 15
+    minSdkVersion 16
     targetSdkVersion 25
     versionCode 1
     versionName "1.0"
@@ -46,4 +46,5 @@ dependencies {
   compile 'de.hdodenhof:circleimageview:2.1.0'
   compile 'com.github.jd-alexander:LikeButton:0.2.0'
   compile 'com.kyleduo.switchbutton:library:1.4.4'
+  compile 'com.tapadoo.android:alerter:1.0.1'
 }
