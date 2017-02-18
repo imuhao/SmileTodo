@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.imuhao.smiletodo.R;
-import com.imuhao.smiletodo.adapter.ThemeColorAdapter;
+import com.imuhao.smiletodo.ui.setting.ThemeColorAdapter;
 import com.imuhao.smiletodo.inter.ThemeColorListener;
 
 import java.util.ArrayList;

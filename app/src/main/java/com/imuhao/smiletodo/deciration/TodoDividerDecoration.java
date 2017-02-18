@@ -1,9 +1,7 @@
-package com.imuhao.smiletodo.adapter;
+package com.imuhao.smiletodo.deciration;
 
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 /**
  * Created by smile on 16-10-25.

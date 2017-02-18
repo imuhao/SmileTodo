@@ -1,4 +1,4 @@
-package com.imuhao.smiletodo.adapter;
+package com.imuhao.smiletodo.ui.setting;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

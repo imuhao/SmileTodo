@@ -1,4 +1,4 @@
-package com.imuhao.smiletodo.activity;
+package com.imuhao.smiletodo.ui.home;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -15,9 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.imuhao.smiletodo.R;
-import com.imuhao.smiletodo.adapter.DividerItemDecoration;
-import com.imuhao.smiletodo.adapter.SimpleItemTouchHelperCallback;
-import com.imuhao.smiletodo.adapter.TodoAdapter;
+import com.imuhao.smiletodo.ui.about.AboutActivity;
+import com.imuhao.smiletodo.ui.addtask.AddTaskActivity;
+import com.imuhao.smiletodo.ui.setting.SettingActivity;
+import com.imuhao.smiletodo.deciration.DividerItemDecoration;
+import com.imuhao.smiletodo.inter.SimpleItemTouchHelperCallback;
 import com.imuhao.smiletodo.model.TodoBean;
 import com.imuhao.smiletodo.model.TodoDaoManager;
 import com.imuhao.smiletodo.utils.ThemeUtils;
@@ -30,7 +32,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private FloatingActionButton mActionButton;
     private RecyclerView mRvTodo;
     private TodoAdapter mTodoAdapter;
@@ -40,14 +42,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
         initView();
         initData();
     }
 
     private void initView() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("SmileTodo");
         mToolbar.inflateMenu(R.menu.menu);
         mToolbar.setOnMenuItemClickListener(
                 new Toolbar.OnMenuItemClickListener() {
@@ -56,12 +57,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         int itemId = item.getItemId();
                         //设置页面
                         if (itemId == R.id.action_setting) {
-                            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                            Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
                             startActivity(intent);
                         }
                         //关于我页面
                         if (itemId == R.id.action_about) {
-                            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                            Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
                             startActivity(intent);
                         }
                         return true;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
+                Intent intent = new Intent(HomeActivity.this, AddTaskActivity.class);
                 startActivity(intent);
             }
         });

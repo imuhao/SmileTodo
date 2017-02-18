@@ -1,4 +1,4 @@
-package com.imuhao.smiletodo.activity;
+package com.imuhao.smiletodo.ui.setting;
 
 import android.app.Activity;
 import android.os.Bundle;

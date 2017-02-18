@@ -1,9 +1,7 @@
-package com.imuhao.smiletodo.adapter;
+package com.imuhao.smiletodo.inter;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-
-import com.imuhao.smiletodo.inter.ItemTouchHelperAdapter;
 
 /**
  * Created by smile on 16-10-25.

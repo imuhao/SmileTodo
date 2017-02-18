@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <!--<color name="colorAccent">#FF4081</color>-->
     <color name="colorAccent">@android:color/white</color>
-    <color name="backgroupColor">#1ed48a</color>
+    <color name="backgroundColor">#1ed48a</color>
     <color name="gray">#888888</color>
     <color name="bg_light_gray">#F2F2F2</color>
 

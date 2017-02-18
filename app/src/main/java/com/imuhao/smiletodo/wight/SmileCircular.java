@@ -41,7 +41,7 @@ public class SmileCircular extends View {
     }
 
     private void init() {
-        mColor = getResources().getColor(R.color.backgroupColor);
+        mColor = getResources().getColor(R.color.backgroundColor);
 
         mPaint = new Paint();
         mPaint.setColor(mColor);

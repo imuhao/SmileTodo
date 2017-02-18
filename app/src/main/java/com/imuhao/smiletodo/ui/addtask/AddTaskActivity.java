@@ -1,4 +1,4 @@
-package com.imuhao.smiletodo.activity;
+package com.imuhao.smiletodo.ui.addtask;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
