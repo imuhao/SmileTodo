@@ -27,12 +27,6 @@ public class SettingActivity extends Activity {
     private void initView() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setBackgroundColor(ThemeUtils.getThemeColor());
-        findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         findViewById(R.id.tv_theme_color).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

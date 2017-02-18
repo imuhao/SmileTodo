@@ -2,7 +2,7 @@ package com.imuhao.smiletodo.ui.about;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 import com.imuhao.smiletodo.R;
 import com.imuhao.smiletodo.utils.ThemeUtils;
 

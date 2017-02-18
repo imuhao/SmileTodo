@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">SmileTodo</string>
+  <string name="app_name">日常</string>
+
+  <string name="about_str">关于</string>
+  <string name="setting_str">设置</string>
+  <string name="setting_color">主题颜色</string>
+  <string name="input_content">请输入内容</string>
+  <string name="remind_me">设置时间</string>
+  <string name="select_time">选择时间</string>
 </resources>
