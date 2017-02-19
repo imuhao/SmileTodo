@@ -47,4 +47,5 @@ dependencies {
   compile 'com.github.jd-alexander:LikeButton:0.2.0'
   compile 'com.kyleduo.switchbutton:library:1.4.4'
   compile 'com.tapadoo.android:alerter:1.0.1'
+  compile 'me.drakeet.multitype:multitype:2.4.0'
 }

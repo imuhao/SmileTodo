@@ -1,4 +1,4 @@
-package com.imuhao.smiletodo.wight;
+package com.imuhao.smiletodo.ui.addtask;
 
 import android.content.Context;
 import android.graphics.Canvas;

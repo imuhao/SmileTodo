@@ -5,9 +5,10 @@ import android.app.Application;
 import android.content.Context;
 
 import android.os.Bundle;
-import com.imuhao.smiletodo.model.DaoMaster;
-import com.imuhao.smiletodo.model.DaoSession;
+import com.imuhao.smiletodo.bean.DaoMaster;
+import com.imuhao.smiletodo.bean.DaoSession;
 import com.imuhao.smiletodo.utils.MyActivityManager;
+import me.drakeet.multitype.MultiTypeAdapter;
 
 /**
  * Created by smile on 16-10-25.

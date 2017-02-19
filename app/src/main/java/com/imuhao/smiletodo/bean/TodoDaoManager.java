@@ -1,4 +1,4 @@
-package com.imuhao.smiletodo.model;
+package com.imuhao.smiletodo.bean;
 
 import com.imuhao.smiletodo.App;
 

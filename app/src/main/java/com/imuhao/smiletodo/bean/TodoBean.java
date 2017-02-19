@@ -1,4 +1,4 @@
-package com.imuhao.smiletodo.model;
+package com.imuhao.smiletodo.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
