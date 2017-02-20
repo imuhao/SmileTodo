@@ -17,46 +17,44 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by smile on 16-11-1.
  */
 
-public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorHolder> {
-    private List<Integer> mColors;
-    private Context mContext;
-    private ThemeColorListener mListener;
+public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.ThemeColorHolder> {
+  private List<Integer> mColors;
+  private Context mContext;
+  private ThemeColorListener mListener;
 
-    public ThemeColorAdapter(Context context, ThemeColorListener listener, List<Integer> list) {
-        mContext = context;
-        mColors = list;
-        mListener = listener;
-    }
+  public ThemeColorAdapter(Context context, ThemeColorListener listener, List<Integer> list) {
+    mContext = context;
+    mColors = list;
+    mListener = listener;
+  }
 
-    @Override
-    public ThemeColorHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_theme_color, parent, false);
-        return new ThemeColorHolder(view);
-    }
+  @Override public ThemeColorHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(mContext).inflate(R.layout.item_theme_color, parent, false);
+    return new ThemeColorHolder(view);
+  }
 
-    @Override
-    public void onBindViewHolder(ThemeColorHolder holder, int position) {
-        final Integer color = mColors.get(position);
-        holder.mImageView.setImageResource(color);
-        holder.mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onColorChoose(color);
-            }
-        });
-    }
+  @Override public void onBindViewHolder(ThemeColorHolder holder, int position) {
+    final Integer color = mColors.get(position);
+    holder.mImageView.setImageResource(color);
+    holder.mImageView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        mListener.onColorChoose(color);
+      }
+    });
+  }
 
-    @Override
-    public int getItemCount() {
-        return mColors.size();
-    }
-}
+  @Override public int getItemCount() {
+    return mColors.size();
+  }
 
-class ThemeColorHolder extends RecyclerView.ViewHolder {
+  class ThemeColorHolder extends RecyclerView.ViewHolder {
     CircleImageView mImageView;
 
     public ThemeColorHolder(View itemView) {
-        super(itemView);
-        mImageView = (CircleImageView) itemView.findViewById(R.id.theme_color);
+      super(itemView);
+      mImageView = (CircleImageView) itemView.findViewById(R.id.theme_color);
     }
+  }
 }
+
+
