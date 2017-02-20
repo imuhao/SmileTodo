@@ -5,7 +5,7 @@
 
     <item>
         <bitmap android:gravity="center"
-                android:src="@drawable/null_img"
+                android:src="@mipmap/null_img"
         />
     </item>
 
