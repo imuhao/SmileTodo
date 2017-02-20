@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import com.imuhao.smiletodo.R;
 import com.imuhao.smiletodo.bean.TodoBean;
 import com.imuhao.smiletodo.bean.TodoDaoManager;
@@ -36,6 +37,7 @@ public class HomeActivity extends AppCompatActivity
   private SwipeRefreshLayout mRefreshLayout;
   private Toolbar mToolbar;
   private TodoAdapter mAdapter;
+  private LinearLayout mLlEmpty;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -62,7 +64,7 @@ public class HomeActivity extends AppCompatActivity
   }
 
   private void initRecyclerView() {
-    mRvTodo = (RecyclerView) findViewById(R.id.reciclerView);
+    mRvTodo = (RecyclerView) findViewById(R.id.recyclerView);
     mRvTodo.setLayoutManager(new LinearLayoutManager(this));
     mRvTodo.setAdapter(mAdapter = new TodoAdapter());
     mAdapter.register(TodoBean.class, new TodoViewProvider());
@@ -78,6 +80,7 @@ public class HomeActivity extends AppCompatActivity
   }
 
   private void initToolbar() {
+    mLlEmpty = (LinearLayout) findViewById(R.id.ll_empty_layout);
     mToolbar = (Toolbar) findViewById(R.id.toolbar);
     mToolbar.inflateMenu(R.menu.menu);
     mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -121,13 +124,25 @@ public class HomeActivity extends AppCompatActivity
     })
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
+        .doOnNext(new Action1<List<TodoBean>>() {
+          @Override public void call(List<TodoBean> todoBeen) {
+            if (todoBeen == null || todoBeen.isEmpty()) {
+              //显示空视图
+              mLlEmpty.setVisibility(View.VISIBLE);
+              mRefreshLayout.setVisibility(View.GONE);
+            } else {
+              //显示数据
+              mRefreshLayout.setVisibility(View.VISIBLE);
+              mLlEmpty.setVisibility(View.GONE);
+            }
+          }
+        })
         .subscribe(new Action1<List<TodoBean>>() {
           @Override public void call(List<TodoBean> todoBeen) {
             if (mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
               mRefreshLayout.setRefreshing(false);
             }
             mAdapter.setItems(todoBeen);
-            //mTodoAdapter.setData(todoBeen);
           }
         });
   }
@@ -147,7 +162,8 @@ public class HomeActivity extends AppCompatActivity
     }
     TodoBean removeBean = items.remove(position);
     TodoDaoManager.remove(removeBean);
-    mAdapter.notifyItemChanged(position);
+    //mAdapter.notifyItemChanged(position);
     AlertUtils.show("删除 " + removeBean.getTitle() + " 成功!");
+    initData();
   }
 }

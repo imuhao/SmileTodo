@@ -68,7 +68,7 @@ public class OldTodo extends RecyclerView.Adapter<OldTodo.TodoHolder>
     if (viewType == TYPE_DATE) {
       view = LayoutInflater.from(mActivity).inflate(R.layout.item_todo_task, parent, false);
     } else if (viewType == TYPE_NULL) {
-      view = LayoutInflater.from(mActivity).inflate(R.layout.item_todo_null, parent, false);
+      view = LayoutInflater.from(mActivity).inflate(R.layout.layout_todo_null, parent, false);
     }
     return new TodoHolder(view);
   }
