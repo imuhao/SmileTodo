@@ -9,14 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import com.imuhao.smiletodo.R;
 import com.imuhao.smiletodo.bean.TodoBean;
 import com.imuhao.smiletodo.bean.TodoDaoManager;
+import com.imuhao.smiletodo.inter.ItemTouchHelperCallback;
+import com.imuhao.smiletodo.inter.SimpleItemTouchHelperCallback;
 import com.imuhao.smiletodo.ui.about.AboutActivity;
 import com.imuhao.smiletodo.ui.addtask.AddTaskActivity;
 import com.imuhao.smiletodo.ui.setting.SettingActivity;
+import com.imuhao.smiletodo.utils.AlertUtils;
 import com.imuhao.smiletodo.utils.ThemeUtils;
 import java.util.List;
 import rx.Observable;
@@ -26,7 +30,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class HomeActivity extends AppCompatActivity
-    implements SwipeRefreshLayout.OnRefreshListener {
+    implements SwipeRefreshLayout.OnRefreshListener, ItemTouchHelperCallback {
   private FloatingActionButton mActionButton;
   private RecyclerView mRvTodo;
   private SwipeRefreshLayout mRefreshLayout;
@@ -65,10 +69,9 @@ public class HomeActivity extends AppCompatActivity
 
     //添加item之间的分割线
     mRvTodo.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-    //设置左右滑动删除
 
-    //ItemTouchHelper helper = new ItemTouchHelper(new SimpleItemTouchHelperCallback(mAdapter));
-    //helper.attachToRecyclerView(mRvTodo);
+    ItemTouchHelper helper = new ItemTouchHelper(new SimpleItemTouchHelperCallback(this));
+    helper.attachToRecyclerView(mRvTodo);
 
     mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
     mRefreshLayout.setOnRefreshListener(this);
@@ -131,5 +134,20 @@ public class HomeActivity extends AppCompatActivity
 
   @Override public void onRefresh() {
     initData();
+  }
+
+  /**
+   * 当滑动删除时调用该方法
+   */
+  @Override public void onItemRemoved(RecyclerView.ViewHolder viewHolder) {
+    int position = viewHolder.getAdapterPosition();
+    List<TodoBean> items = mAdapter.getItems();
+    if (items.isEmpty() || position > items.size() - 1) {
+      return;
+    }
+    TodoBean removeBean = items.remove(position);
+    TodoDaoManager.remove(removeBean);
+    mAdapter.notifyItemChanged(position);
+    AlertUtils.show("删除 " + removeBean.getTitle() + " 成功!");
   }
 }

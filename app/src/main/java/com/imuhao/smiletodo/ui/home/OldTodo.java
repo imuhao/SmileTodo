@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.imuhao.smiletodo.R;
 import com.imuhao.smiletodo.bean.TodoBean;
 import com.imuhao.smiletodo.bean.TodoDaoManager;
-import com.imuhao.smiletodo.inter.ItemTouchHelperAdapter;
+import com.imuhao.smiletodo.inter.ItemTouchHelperCallback;
 import com.imuhao.smiletodo.ui.addtask.AddTaskActivity;
 import com.imuhao.smiletodo.utils.AlertUtils;
 import com.imuhao.smiletodo.utils.ColorUtils;
@@ -26,15 +26,15 @@ import java.util.List;
  * Created by smile on 16-10-25.
  */
 
-public class OldTodoAdapter extends RecyclerView.Adapter<OldTodoAdapter.TodoHolder>
-    implements ItemTouchHelperAdapter {
+public class OldTodo extends RecyclerView.Adapter<OldTodo.TodoHolder>
+    implements ItemTouchHelperCallback {
   private List<TodoBean> mData = new ArrayList<>();
   private Activity mActivity;
 
   private static final int TYPE_NULL = 0X001;
   private static final int TYPE_DATE = 0x002;
 
-  public OldTodoAdapter(Activity activity) {
+  public OldTodo(Activity activity) {
     mActivity = activity;
   }
 
