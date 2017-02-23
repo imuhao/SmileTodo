@@ -39,6 +39,7 @@ public class HomeActivity extends AppCompatActivity
   private Toolbar mToolbar;
   private TodoAdapter mAdapter;
   private LinearLayout mLlEmpty;
+  private TodoDataObserver observer;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -70,13 +71,9 @@ public class HomeActivity extends AppCompatActivity
     mRvTodo.setAdapter(mAdapter = new TodoAdapter());
     mAdapter.register(TodoBean.class, new TodoViewProvider());
 
-    //当调用 notifaDataSetChange 时回调
-    mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-      @Override public void onChanged() {
-        ListUtils.sortTop(mAdapter.getItems());
-      }
-    });
-    //添加item之间的分割线
+    observer = new TodoDataObserver();
+    mAdapter.registerAdapterDataObserver(observer);
+
     mRvTodo.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     ItemTouchHelper helper = new ItemTouchHelper(new SimpleItemTouchHelperCallback(this));
     helper.attachToRecyclerView(mRvTodo);
@@ -111,6 +108,11 @@ public class HomeActivity extends AppCompatActivity
     super.onResume();
     initData();
     initThemeColor();
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    mAdapter.unregisterAdapterDataObserver(observer);
   }
 
   private void initThemeColor() {
@@ -172,5 +174,12 @@ public class HomeActivity extends AppCompatActivity
 
     AlertUtils.show("删除 " + removeBean.getTitle() + " 成功!");
     initData();
+  }
+
+  public class TodoDataObserver extends RecyclerView.AdapterDataObserver {
+    @Override public void onChanged() {
+      super.onChanged();
+      ListUtils.sortTop(mAdapter.getItems());
+    }
   }
 }

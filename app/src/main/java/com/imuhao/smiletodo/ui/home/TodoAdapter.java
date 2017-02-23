@@ -10,6 +10,7 @@ import me.drakeet.multitype.MultiTypeAdapter;
  * @desc ${TODD}
  */
 public class TodoAdapter extends MultiTypeAdapter {
+
   public List<TodoBean> getItems() {
     return (List<TodoBean>) items;
   }
