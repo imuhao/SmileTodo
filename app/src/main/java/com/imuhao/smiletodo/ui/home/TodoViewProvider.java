@@ -81,7 +81,8 @@ public class TodoViewProvider extends ItemViewProvider<TodoBean, TodoViewProvide
         @Override public boolean onLongClick(View v) {
           bean.setIsTop(!bean.getIsTop());
           TodoDaoManager.update(bean);
-          getAdapter().notifyItemChanged(getAdapterPosition());
+          //getAdapter().notifyItemChanged(getAdapterPosition());
+          getAdapter().notifyDataSetChanged();
           return true;
         }
       });

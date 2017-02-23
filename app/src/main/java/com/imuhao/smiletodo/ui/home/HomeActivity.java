@@ -22,6 +22,7 @@ import com.imuhao.smiletodo.ui.about.AboutActivity;
 import com.imuhao.smiletodo.ui.addtask.AddTaskActivity;
 import com.imuhao.smiletodo.ui.setting.SettingActivity;
 import com.imuhao.smiletodo.utils.AlertUtils;
+import com.imuhao.smiletodo.utils.ListUtils;
 import com.imuhao.smiletodo.utils.ThemeUtils;
 import java.util.List;
 import rx.Observable;
@@ -69,9 +70,14 @@ public class HomeActivity extends AppCompatActivity
     mRvTodo.setAdapter(mAdapter = new TodoAdapter());
     mAdapter.register(TodoBean.class, new TodoViewProvider());
 
+    //当调用 notifaDataSetChange 时回调
+    mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+      @Override public void onChanged() {
+        ListUtils.sortTop(mAdapter.getItems());
+      }
+    });
     //添加item之间的分割线
     mRvTodo.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-
     ItemTouchHelper helper = new ItemTouchHelper(new SimpleItemTouchHelperCallback(this));
     helper.attachToRecyclerView(mRvTodo);
 
@@ -101,8 +107,8 @@ public class HomeActivity extends AppCompatActivity
     });
   }
 
-  @Override protected void onRestart() {
-    super.onRestart();
+  @Override protected void onResume() {
+    super.onResume();
     initData();
     initThemeColor();
   }
@@ -163,6 +169,7 @@ public class HomeActivity extends AppCompatActivity
     TodoBean removeBean = items.remove(position);
     TodoDaoManager.remove(removeBean);
     //mAdapter.notifyItemChanged(position);
+
     AlertUtils.show("删除 " + removeBean.getTitle() + " 成功!");
     initData();
   }
