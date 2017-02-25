@@ -3,10 +3,8 @@ package com.imuhao.smiletodo.ui.addtask;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.res.ColorStateList;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -17,6 +15,7 @@ import android.widget.Toast;
 import com.imuhao.smiletodo.R;
 import com.imuhao.smiletodo.bean.TodoBean;
 import com.imuhao.smiletodo.bean.TodoDaoManager;
+import com.imuhao.smiletodo.ui.base.BaseActivity;
 import com.imuhao.smiletodo.utils.AlertUtils;
 import com.imuhao.smiletodo.utils.ThemeUtils;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -36,7 +35,7 @@ import rx.schedulers.Schedulers;
  * 添加一个todo
  */
 
-public class AddTaskActivity extends AppCompatActivity implements OnDateSetListener {
+public class AddTaskActivity extends BaseActivity implements OnDateSetListener {
   private FloatingActionButton mActionButton;
   private TextInputLayout mInputLayout;
   private RelativeLayout mRoot;
@@ -52,14 +51,11 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
   private LinearLayout mLlTime;
   private TextView mBtnSetTime;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_add_task);
-
-    initView();
+  @Override protected int getLayoutId() {
+    return R.layout.activity_add_task;
   }
 
-  private void initView() {
+  public void initView() {
 
     findViewById(R.id.toolbar).setBackgroundColor(ThemeUtils.getThemeColor());
     findViewById(R.id.ll_title).setBackgroundColor(ThemeUtils.getThemeColor());
@@ -156,7 +152,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
           @Override public void call(Boolean aBoolean) {
             if (aBoolean) {
 
-              AlertUtils.show( "添加成功!");
+              AlertUtils.show("添加成功!");
               finish();
             }
           }
@@ -215,7 +211,7 @@ public class AddTaskActivity extends AppCompatActivity implements OnDateSetListe
   public boolean checkInput(String title) {
     if (TextUtils.isEmpty(title)) {
       //Snackbar.make(mRoot, "Please enter a title!", Snackbar.LENGTH_SHORT).show();
-      AlertUtils.show( "请输入内容!");
+      AlertUtils.show("请输入内容!");
       return false;
     }
 

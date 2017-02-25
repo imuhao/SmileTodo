@@ -2,10 +2,7 @@ package com.imuhao.smiletodo.ui.home;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,10 +17,12 @@ import com.imuhao.smiletodo.inter.ItemTouchHelperCallback;
 import com.imuhao.smiletodo.inter.SimpleItemTouchHelperCallback;
 import com.imuhao.smiletodo.ui.about.AboutActivity;
 import com.imuhao.smiletodo.ui.addtask.AddTaskActivity;
+import com.imuhao.smiletodo.ui.base.BaseRefreshActivity;
 import com.imuhao.smiletodo.ui.setting.SettingActivity;
 import com.imuhao.smiletodo.utils.AlertUtils;
 import com.imuhao.smiletodo.utils.ListUtils;
 import com.imuhao.smiletodo.utils.ThemeUtils;
+import java.util.ArrayList;
 import java.util.List;
 import rx.Observable;
 import rx.Subscriber;
@@ -31,24 +30,24 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class HomeActivity extends AppCompatActivity
-    implements SwipeRefreshLayout.OnRefreshListener, ItemTouchHelperCallback {
+public class HomeActivity extends BaseRefreshActivity implements ItemTouchHelperCallback {
   private FloatingActionButton mActionButton;
   private RecyclerView mRvTodo;
-  private SwipeRefreshLayout mRefreshLayout;
   private Toolbar mToolbar;
   private TodoAdapter mAdapter;
   private LinearLayout mLlEmpty;
   private TodoDataObserver observer;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_home);
-    initView();
-    initData();
+  @Override protected int getLayoutId() {
+    return R.layout.activity_home;
   }
 
-  private void initView() {
+  public void initView() {
+    mLlEmpty = (LinearLayout) findViewById(R.id.ll_empty_layout);
+    mActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+    mRvTodo = (RecyclerView) findViewById(R.id.recyclerView);
+    mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
     initToolbar();
     initActionButton();
     initRecyclerView();
@@ -56,7 +55,6 @@ public class HomeActivity extends AppCompatActivity
   }
 
   private void initActionButton() {
-    mActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
     mActionButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         Intent intent = new Intent(HomeActivity.this, AddTaskActivity.class);
@@ -66,25 +64,17 @@ public class HomeActivity extends AppCompatActivity
   }
 
   private void initRecyclerView() {
-    mRvTodo = (RecyclerView) findViewById(R.id.recyclerView);
     mRvTodo.setLayoutManager(new LinearLayoutManager(this));
     mRvTodo.setAdapter(mAdapter = new TodoAdapter());
     mAdapter.register(TodoBean.class, new TodoViewProvider());
-
     observer = new TodoDataObserver();
     mAdapter.registerAdapterDataObserver(observer);
-
     mRvTodo.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     ItemTouchHelper helper = new ItemTouchHelper(new SimpleItemTouchHelperCallback(this));
     helper.attachToRecyclerView(mRvTodo);
-
-    mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
-    mRefreshLayout.setOnRefreshListener(this);
   }
 
   private void initToolbar() {
-    mLlEmpty = (LinearLayout) findViewById(R.id.ll_empty_layout);
-    mToolbar = (Toolbar) findViewById(R.id.toolbar);
     mToolbar.inflateMenu(R.menu.menu);
     mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
       @Override public boolean onMenuItemClick(MenuItem item) {
@@ -106,8 +96,8 @@ public class HomeActivity extends AppCompatActivity
 
   @Override protected void onResume() {
     super.onResume();
-    initData();
     initThemeColor();
+    loadData(true);
   }
 
   @Override protected void onDestroy() {
@@ -117,12 +107,11 @@ public class HomeActivity extends AppCompatActivity
 
   private void initThemeColor() {
     int color = ThemeUtils.getThemeColor();
-    mRefreshLayout.setColorSchemeColors(color);
     mActionButton.setBackgroundTintList(ColorStateList.valueOf(color));
     mToolbar.setBackgroundColor(color);
   }
 
-  public void initData() {
+  @Override protected void loadData(final boolean clear) {
     Observable.create(new Observable.OnSubscribe<List<TodoBean>>() {
       @Override public void call(Subscriber<? super List<TodoBean>> subscriber) {
         List<TodoBean> todoBeen = TodoDaoManager.queryAll();
@@ -134,29 +123,30 @@ public class HomeActivity extends AppCompatActivity
         .observeOn(AndroidSchedulers.mainThread())
         .doOnNext(new Action1<List<TodoBean>>() {
           @Override public void call(List<TodoBean> todoBeen) {
-            if (todoBeen == null || todoBeen.isEmpty()) {
-              //显示空视图
-              mLlEmpty.setVisibility(View.VISIBLE);
-              mRefreshLayout.setVisibility(View.GONE);
-            } else {
-              //显示数据
-              mRefreshLayout.setVisibility(View.VISIBLE);
-              mLlEmpty.setVisibility(View.GONE);
-            }
+            showEmptyView(todoBeen);
           }
         })
         .subscribe(new Action1<List<TodoBean>>() {
           @Override public void call(List<TodoBean> todoBeen) {
-            if (mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
-              mRefreshLayout.setRefreshing(false);
-            }
-            mAdapter.setItems(todoBeen);
+            setRefresh(false);
+            List<TodoBean> items =
+                clear ? new ArrayList<TodoBean>() : new ArrayList<TodoBean>(mAdapter.getItems());
+            items.addAll(todoBeen);
+            mAdapter.setItems(items);
           }
         });
   }
 
-  @Override public void onRefresh() {
-    initData();
+  private void showEmptyView(List list) {
+    if (list == null || list.isEmpty()) {
+      //显示空视图
+      mLlEmpty.setVisibility(View.VISIBLE);
+      setVisibility(View.GONE);
+    } else {
+      //显示数据
+      setVisibility(View.VISIBLE);
+      mLlEmpty.setVisibility(View.GONE);
+    }
   }
 
   /**
@@ -173,7 +163,7 @@ public class HomeActivity extends AppCompatActivity
     //mAdapter.notifyItemChanged(position);
 
     AlertUtils.show("删除 " + removeBean.getTitle() + " 成功!");
-    initData();
+    loadData(true);
   }
 
   public class TodoDataObserver extends RecyclerView.AdapterDataObserver {
