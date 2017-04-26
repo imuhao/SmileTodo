@@ -7,4 +7,5 @@
   <string name="input_content">请输入内容</string>
   <string name="remind_me">设置时间</string>
   <string name="select_time">选择时间</string>
+  <string name="author_name">故事还长</string>
 </resources>
