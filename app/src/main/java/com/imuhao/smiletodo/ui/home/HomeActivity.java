@@ -25,9 +25,9 @@ import com.imuhao.smiletodo.utils.ThemeUtils;
 import java.util.ArrayList;
 import java.util.List;
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class HomeActivity extends BaseRefreshActivity implements ItemTouchHelperCallback {
@@ -112,13 +112,13 @@ public class HomeActivity extends BaseRefreshActivity implements ItemTouchHelper
   }
 
   @Override protected void loadData(final boolean clear) {
-    Observable.create(new Observable.OnSubscribe<List<TodoBean>>() {
-      @Override public void call(Subscriber<? super List<TodoBean>> subscriber) {
-        List<TodoBean> todoBeen = TodoDaoManager.queryAll();
-        subscriber.onNext(todoBeen);
-        subscriber.onCompleted();
-      }
-    })
+
+    Observable.just(true)
+        .map(new Func1<Boolean, List<TodoBean>>() {
+          @Override public List<TodoBean> call(Boolean aBoolean) {
+            return TodoDaoManager.queryAll();
+          }
+        })
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .doOnNext(new Action1<List<TodoBean>>() {

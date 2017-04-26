@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import com.imuhao.smiletodo.R;
+import com.imuhao.smiletodo.utils.ThemeUtils;
 
 /**
  * @author Smile
@@ -22,6 +23,7 @@ public class SwipeRefreshDelegate {
 
   public void attach(Activity activity) {
     mSwipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.refreshLayout);
+    mSwipeRefreshLayout.setColorSchemeColors(ThemeUtils.getThemeColor());
     trySwipeRefresh();
   }
 

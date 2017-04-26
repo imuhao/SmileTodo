@@ -136,7 +136,6 @@ public class AddTaskActivity extends BaseActivity implements OnDateSetListener {
       @Override public void call(Subscriber<? super Boolean> subscriber) {
         TodoBean bean = new TodoBean();
         bean.setTitle(title);
-
         if (!TextUtils.isEmpty(mTvTime.getText())) bean.setTime(mTvTime.getText().toString());
 
         bean.setComplete(false);
@@ -151,7 +150,6 @@ public class AddTaskActivity extends BaseActivity implements OnDateSetListener {
         .subscribe(new Action1<Boolean>() {
           @Override public void call(Boolean aBoolean) {
             if (aBoolean) {
-
               AlertUtils.show("添加成功!");
               finish();
             }
